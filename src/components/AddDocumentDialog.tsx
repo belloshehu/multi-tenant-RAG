@@ -6,22 +6,23 @@ import {
 } from "@/src/components/ui/dialog";
 
 import { Database, Menu, Plus } from "lucide-react";
-import { ReactNode } from "react";
 import { Button } from "./ui/button";
+import DocumentUploadForm from "./forms/DocumentUploadForm";
 
-const AddDocumentDialog = ({ children }: { children: ReactNode }) => {
+const AddDocumentDialog = ({ buttonText }: { buttonText?: string }) => {
 	return (
 		<Dialog>
 			<DialogTrigger>
 				<Button variant={"outline"}>
-					<Plus className="text-orange-600" /> Add Document
+					<Plus className="text-green-400" />
+					{buttonText && buttonText}
 				</Button>
 			</DialogTrigger>
 			<DialogTitle hidden>add document</DialogTitle>
 
 			<DialogContent className="w-full bg-white max-h-[70vh] overflow-y-auto">
 				<h3 className="text-xl font-semibold md:font-bold">Add new document</h3>
-				{children}
+				<DocumentUploadForm />
 			</DialogContent>
 		</Dialog>
 	);
