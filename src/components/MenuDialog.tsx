@@ -1,5 +1,4 @@
-import { Menu } from "lucide-react";
-import KnowledgeSourceModal from "./AddDocumentDialog";
+import { Database, File, Menu } from "lucide-react";
 import AboutDialog from "@/src/components/AboutDialog";
 import {
 	Dialog,
@@ -8,26 +7,62 @@ import {
 	DialogTrigger,
 } from "@/src/components/ui/dialog";
 import AddDocumentDialog from "./AddDocumentDialog";
+import { authClient } from "../lib/auth-client";
+import { Button } from "./ui/button";
+import { useState } from "react";
+import { Separator } from "./ui/separator";
+import { User } from "better-auth";
+import Avatar from "./Avatar";
 
 const MenuDialog = ({
 	knowledgeSourceText,
 }: {
 	knowledgeSourceText: string;
 }) => {
+	const { data } = authClient.useSession() as { data: { user: any } };
+	const [loading, setLoading] = useState(false);
+
+	const handleSignOut = async () => {
+		setLoading(true);
+		await authClient.signOut().finally(() => {
+			setLoading(false);
+		});
+	};
+
 	return (
 		<Dialog>
 			<DialogTrigger>
-				<Menu className="text-white" />
+				{data && data.user ? (
+					<Avatar imageUrl={data?.user.image!} />
+				) : (
+					<Menu className="" />
+				)}
 			</DialogTrigger>
 			<DialogTitle hidden>Menu dialog</DialogTitle>
 
 			<DialogContent className="w-full bg-white max-h-[70vh] overflow-y-auto flex flex-col items-start justify-start">
+				<div className="flex flex-reverse items-center w-full justify-between">
+					{data && data.user && <h3>Hello {data.user.name}!</h3>}
+					<Button variant={"outline"} onClick={handleSignOut}>
+						Log out
+					</Button>
+				</div>
+				<Separator />
+				{data && data?.user.role === "admin" && (
+					<nav>
+						<ul>
+							<li>
+								<File /> Documents
+							</li>
+							<li>
+								<Database /> Storage
+							</li>
+						</ul>
+					</nav>
+				)}
 				<AboutDialog />
-				<AddDocumentDialog>
-					{knowledgeSourceText.split("\n\n").map((paragraph, i) => (
-						<p key={i}>{paragraph}</p>
-					))}
-				</AddDocumentDialog>
+
+				{data && data.user && <AddDocumentDialog buttonText="Add document" />}
 			</DialogContent>
 		</Dialog>
 	);
