@@ -11,12 +11,14 @@ import {
 	Item,
 	ItemContent,
 	ItemDescription,
+	ItemGroup,
 	ItemMedia,
 	ItemTitle,
 } from "@/src/components/ui/item";
 import { useTenant } from "../contexts/tenant-context";
 import { formatFileName } from "../lib/format-filename";
 import { cn } from "../lib/utils";
+import { heroItems } from "../constants";
 
 // import { postPrompt, getAIResponse } from "@/actions/lmms";
 export interface ChatType {
@@ -29,6 +31,7 @@ export default function Prompt() {
 	const [isChatting, setIsChatting] = useState(false);
 	const [chatList, setChatList] = useState<ChatType[] | []>([]);
 	const { selectedDocument } = useTenant();
+	const [isFocused, setIsFocused] = useState(false);
 
 	const handleChat = async () => {
 		setIsChatting(true);
@@ -58,7 +61,7 @@ export default function Prompt() {
 	return (
 		<section
 			className={cn(
-				"col-span-5 flex flex-col gap-0 w-full h-full overflow-y-auto rounded-4xl p-2 md:p-5 md:py-2"
+				"col-span-5 flex flex-col gap-5 w-full h-full justify-center overflow-y-auto rounded-4xl p-2 md:p-5 md:py-2"
 			)}
 		>
 			{selectedDocument && (
@@ -66,7 +69,7 @@ export default function Prompt() {
 					<h3 className="text-sm font-normal">Selected document</h3>
 					<Item variant={"outline"} className="p-1 px-2">
 						<ItemContent>
-							<ItemTitle>
+							<ItemTitle className="text-green-500">
 								<ItemMedia>
 									<File size={16} className="text-gray-500" />
 								</ItemMedia>
@@ -75,6 +78,27 @@ export default function Prompt() {
 						</ItemContent>
 					</Item>
 				</div>
+			)}
+			{!isFocused && (
+				<ItemGroup className="gap-5">
+					{heroItems.map((item, index) => {
+						return (
+							<Item variant={"muted"}>
+								<ItemContent>
+									<ItemTitle className="text-green-500">
+										{index === 0 && (
+											<ItemMedia>
+												<File size={20} />
+											</ItemMedia>
+										)}
+										{item.title}
+									</ItemTitle>
+									<ItemDescription>{item.description}</ItemDescription>
+								</ItemContent>
+							</Item>
+						);
+					})}
+				</ItemGroup>
 			)}
 			<ChatMessageList chatList={chatList} isChatting={isChatting} />
 
@@ -87,6 +111,8 @@ export default function Prompt() {
 						onChange={(e) => setPrompt(e.target.value)}
 						value={prompt}
 						className="rounded-full border-[1px]"
+						onFocus={() => setIsFocused(true)}
+						onBlur={() => setIsFocused(false)}
 					/>
 					<Button
 						// onClick={handleClick}
