@@ -1,8 +1,7 @@
 "use client";
-import { Database, Link } from "lucide-react";
+import { Database, Link, ListMinus } from "lucide-react";
 import { authClient } from "../lib/auth-client";
 import AddDocumentDialog from "./AddDocumentDialog";
-import { useState } from "react";
 import { Badge } from "./ui/badge";
 import { useGetAllDocuments } from "../hooks/serivce-hooks/documents.service.hooks";
 import {
@@ -20,20 +19,8 @@ import { Separator } from "./ui/separator";
 
 const Sidebar = () => {
 	const { data } = authClient.useSession();
-	const [files, setFiles] = useState<string[]>([]);
 	const { data: documents, isLoading } = useGetAllDocuments();
 	const { selectedDocument } = useTenant();
-	// const [selectedDoc, setSelectedDoc] = useState("");
-
-	// useEffect(() => {
-	// 	const getFiles = async () => {
-	// 		const files = await getUploadedFiles();
-	// 		if (files) {
-	// 			setFiles(files);
-	// 		}
-	// 	};
-	// 	getFiles();
-	// }, []);
 
 	return (
 		<aside className="hidden md:col-span-2 border-r-[1px] h-screen w-full pt-5 md:flex flex-col items-start justify-start gap-2 p-2">
@@ -49,10 +36,26 @@ const Sidebar = () => {
 				<Badge variant={"secondary"} className="mr-auto ">
 					{documents && documents.length ? documents?.length : 0}
 				</Badge>
-				<AddDocumentDialog />
+				{data && data.user && <AddDocumentDialog />}
 			</div>
-			{/* <FileUpload /> */}
-			<DocumentSelect documents={documents || []} />
+			{documents ? (
+				<DocumentSelect documents={documents || []} />
+			) : (
+				<Item variant={"outline"} className="w-full">
+					<ItemContent>
+						<ItemTitle>
+							<ItemMedia>
+								<ListMinus />
+							</ItemMedia>
+							No documents
+						</ItemTitle>
+						<ItemDescription>
+							No document to interact with. You can try again later after
+							documents are added.
+						</ItemDescription>
+					</ItemContent>
+				</Item>
+			)}
 			{selectedDocument && (
 				<Item variant={"outline"}>
 					<ItemHeader className="p-0">
