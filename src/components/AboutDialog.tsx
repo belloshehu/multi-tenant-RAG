@@ -8,7 +8,7 @@ const AboutDialog = () => {
 		<Dialog>
 			<DialogTrigger>
 				<Button variant={"outline"}>
-					<Info className="text-orange-600" /> About
+					<Info className="" /> About
 				</Button>
 			</DialogTrigger>
 			<DialogTitle hidden>About techbot</DialogTitle>

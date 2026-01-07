@@ -19,6 +19,7 @@ import { useTenant } from "../contexts/tenant-context";
 import { formatFileName } from "../lib/format-filename";
 import { cn } from "../lib/utils";
 import { heroItems } from "../constants";
+import { useGetAllDocuments } from "../hooks/serivce-hooks/documents.service.hooks";
 
 // import { postPrompt, getAIResponse } from "@/actions/lmms";
 export interface ChatType {
@@ -32,6 +33,7 @@ export default function Prompt() {
 	const [chatList, setChatList] = useState<ChatType[] | []>([]);
 	const { selectedDocument } = useTenant();
 	const [isFocused, setIsFocused] = useState(false);
+	const { data: documents } = useGetAllDocuments();
 
 	const handleChat = async () => {
 		setIsChatting(true);
@@ -64,6 +66,7 @@ export default function Prompt() {
 				"col-span-5 flex flex-col gap-5 w-full h-full justify-center overflow-y-auto rounded-4xl p-2 md:p-5 md:py-2"
 			)}
 		>
+			<h1 className="text-3xl md:text-7xl">Multi-tenant RAG</h1>
 			{selectedDocument && (
 				<div className="flex items-center justify-between text-xl font-semibold w-full border-[1px] p-2 rounded-md">
 					<h3 className="text-sm font-normal">Selected document</h3>
@@ -100,7 +103,10 @@ export default function Prompt() {
 					})}
 				</ItemGroup>
 			)}
-			<ChatMessageList chatList={chatList} isChatting={isChatting} />
+
+			{selectedDocument && (
+				<ChatMessageList chatList={chatList} isChatting={isChatting} />
+			)}
 
 			{selectedDocument ? (
 				<div className="rounded-full relative flex items-center w-full">
@@ -123,7 +129,7 @@ export default function Prompt() {
 						<Send className="text-green-600" />
 					</Button>
 				</div>
-			) : (
+			) : documents?.length ? (
 				<Item variant={"outline"}>
 					<ItemContent>
 						<ItemTitle>
@@ -137,7 +143,7 @@ export default function Prompt() {
 						</ItemDescription>
 					</ItemContent>
 				</Item>
-			)}
+			) : null}
 		</section>
 	);
 }

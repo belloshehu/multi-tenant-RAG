@@ -23,20 +23,20 @@ const Sidebar = () => {
 	const { selectedDocument } = useTenant();
 
 	return (
-		<aside className="hidden md:col-span-2 border-r-[1px] h-screen w-full pt-5 md:flex flex-col items-start justify-start gap-2 p-2">
+		<aside className="hidden md:col-span-2 border-r-[1px] h-screen w-full pt-5 md:flex flex-col items-start justify-start gap-2 p-2 overflow-y-auto">
 			{data && data.user && (
 				<h3>
 					Hello {data.user.name}!
 					{(data.user as any).role && (data.user as any).role}
 				</h3>
 			)}
-			<div className="flex p-2 border-[1px] w-full gap-1  items-center">
+			<div className="flex p-2 border-[1px] w-full gap-1 rounded-md items-center">
 				<Database size={20} />
 				<h3 className="text-xl">Documents</h3>
 				<Badge variant={"secondary"} className="mr-auto ">
 					{documents && documents.length ? documents?.length : 0}
 				</Badge>
-				{data && data.user && <AddDocumentDialog />}
+				{/* {data && data.user && <AddDocumentDialog />} */}
 			</div>
 			{documents ? (
 				<DocumentSelect documents={documents || []} />

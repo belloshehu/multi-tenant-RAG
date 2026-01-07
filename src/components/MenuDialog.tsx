@@ -13,6 +13,7 @@ import { useState } from "react";
 import { Separator } from "./ui/separator";
 import { User } from "better-auth";
 import Avatar from "./Avatar";
+import DashboardDocumentDialog from "./DashboardDocumentDialog";
 
 const MenuDialog = ({
 	knowledgeSourceText,
@@ -43,9 +44,6 @@ const MenuDialog = ({
 			<DialogContent className="w-full bg-white max-h-[70vh] overflow-y-auto flex flex-col items-start justify-start">
 				<div className="flex flex-reverse items-center w-full justify-between">
 					{data && data.user && <h3>Hello {data.user.name}!</h3>}
-					<Button variant={"outline"} onClick={handleSignOut}>
-						Log out
-					</Button>
 				</div>
 				<Separator />
 				{data && data?.user.role === "admin" && (
@@ -61,8 +59,16 @@ const MenuDialog = ({
 					</nav>
 				)}
 				<AboutDialog />
-
+				<DashboardDocumentDialog />
 				{data && data.user && <AddDocumentDialog buttonText="Add document" />}
+				<Separator />
+				<Button
+					variant={"destructive"}
+					className="w-full"
+					onClick={handleSignOut}
+				>
+					Log out
+				</Button>
 			</DialogContent>
 		</Dialog>
 	);

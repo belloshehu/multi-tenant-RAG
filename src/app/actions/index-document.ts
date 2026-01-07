@@ -1,4 +1,4 @@
-import { getBaseUrl } from "@/lib/getBaseUrl";
+import { getBaseUrl } from "@/src/lib/getBaseUrl";
 
 export const uploadToSupabase = async (promptText: string) => {
 	const response = await fetch(`${getBaseUrl()}/api/index-document`, {
