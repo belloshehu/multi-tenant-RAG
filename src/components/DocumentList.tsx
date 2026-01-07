@@ -1,14 +1,11 @@
 "use client";
-import { Loader, MoreVertical } from "lucide-react";
-import { Button } from "./ui/button";
+import { Loader } from "lucide-react";
 import { Item, ItemContent, ItemTitle } from "./ui/item";
 import { authClient } from "../lib/auth-client";
 import { cn } from "../lib/utils";
 import { useTenant } from "../contexts/tenant-context";
 import { formatFileName } from "../lib/format-filename";
 import DocumentDropDownMenu from "./DocumentDropDown";
-import { deleteFile } from "../storage/documents";
-import { deleteUploadedFile } from "../app/actions/upload-file";
 import { useState } from "react";
 import { IDocumentType } from "../types/documents.types";
 

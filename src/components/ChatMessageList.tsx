@@ -17,7 +17,7 @@ function ChatMessageList({ chatList, isChatting }: ChatMessageListProps) {
 	return (
 		<div
 			ref={scrollRef}
-			className="flex flex-col w-full flex-1 max-h-[70vh] pb-10 overflow-y-auto p-2 md:p-5 gap-2"
+			className="flex flex-col w-full flex-1 pb-5 overflow-y-auto p-2 md:p-5 gap-2"
 		>
 			{/* Messsages are rendered here */}
 			{chatList?.map((chat, index) => (
