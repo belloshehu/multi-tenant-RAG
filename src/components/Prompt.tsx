@@ -20,6 +20,9 @@ import { formatFileName } from "../lib/format-filename";
 import { cn } from "../lib/utils";
 import { heroItems } from "../constants";
 import { useGetAllDocuments } from "../hooks/serivce-hooks/documents.service.hooks";
+import { Input } from "./ui/input";
+import SearchInput from "./form-fields/SearchInput";
+import { Badge } from "./ui/badge";
 
 // import { postPrompt, getAIResponse } from "@/actions/lmms";
 export interface ChatType {
@@ -63,10 +66,23 @@ export default function Prompt() {
 	return (
 		<section
 			className={cn(
-				"col-span-5 flex flex-col gap-5 w-full h-full justify-center overflow-y-auto rounded-4xl p-2 md:p-5 md:py-2"
+				"col-span-5 flex flex-col gap-5 border-[1px] w-full h-full justify-start overflow-y-auto rounded-4xl p-2 md:p-5 md:py-2"
 			)}
 		>
-			<h1 className="text-3xl md:text-7xl">Multi-tenant RAG</h1>
+			<Item variant={"muted"}>
+				<ItemContent className="w-1/2">
+					<SearchInput
+						placeholder="Enter tenant's name"
+						onChange={() => {}}
+						onSubmit={() => {}}
+					/>
+				</ItemContent>
+				<ItemTitle className="w-1/2">
+					Tenants
+					<Badge>0</Badge>
+				</ItemTitle>
+			</Item>
+			{/* <h1 className="text-3xl md:text-7xl">Multi-tenant RAG</h1> */}
 			{selectedDocument && (
 				<div className="flex items-center justify-between text-xl font-semibold w-full border-[1px] p-2 rounded-md">
 					<h3 className="text-sm font-normal">Selected document</h3>

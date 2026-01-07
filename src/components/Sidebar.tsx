@@ -23,7 +23,7 @@ const Sidebar = () => {
 	const { selectedDocument } = useTenant();
 
 	return (
-		<aside className="hidden md:col-span-2 border-r-[1px] h-screen w-full pt-5 md:flex flex-col items-start justify-start gap-2 p-2 overflow-y-auto">
+		<aside className="hidden md:col-span-2 h-screen w-full pt-5 md:flex flex-col items-start justify-start gap-2 p-2 overflow-y-auto">
 			{data && data.user && (
 				<h3>
 					Hello {data.user.name}!
