@@ -59,7 +59,6 @@ const MenuDialog = ({
 						</ul>
 					</nav>
 				)}
-
 				<DashboardDocumentDialog />
 				<AddTenantDialog />
 

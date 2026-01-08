@@ -1,8 +1,10 @@
 import { ITenantType } from "@/src/types/tenants.types";
-import { Card, CardTitle } from "../ui/card";
+import { Card, CardContent, CardTitle } from "../ui/card";
 import Image from "next/image";
 import { useTenant } from "@/src/contexts/tenant-context";
 import { cn } from "@/src/lib/utils";
+import { File } from "lucide-react";
+import { Badge } from "../ui/badge";
 
 interface ITenantProps {
 	data: ITenantType;
@@ -22,11 +24,13 @@ const Tenant = ({ data }: ITenantProps) => {
 			<Image
 				alt="logo"
 				src={data.logo}
-				width={100}
-				height={80}
+				width={200}
+				height={150}
 				className="object-cover w-full h-22 rounded-md "
 			/>
-			<CardTitle className="font-normal  text-md">{data.name}</CardTitle>
+			<CardContent className="">
+				<CardTitle className="font-normal">{data.name}</CardTitle>
+			</CardContent>
 		</Card>
 	);
 };

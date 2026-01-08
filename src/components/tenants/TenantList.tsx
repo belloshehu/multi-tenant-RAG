@@ -18,7 +18,7 @@ const TenantList = ({ data, loading }: ITenantListProps) => {
 	if (!data || data.length === 0) return <h3>Empty tenants</h3>;
 
 	return (
-		<ul className="w-full grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+		<ul className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 			{data.map((tenant) => (
 				<Tenant data={tenant} key={tenant.id} />
 			))}
