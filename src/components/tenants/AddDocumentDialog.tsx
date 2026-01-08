@@ -5,20 +5,19 @@ import {
 	DialogContent,
 } from "@/src/components/ui/dialog";
 
-import { Database, Menu, Plus } from "lucide-react";
-import { Button } from "./ui/button";
-import DocumentUploadForm from "./forms/DocumentUploadForm";
+import { File } from "lucide-react";
+import { Button } from "../ui/button";
+import DocumentUploadForm from "../forms/DocumentUploadForm";
 
 const AddDocumentDialog = ({ buttonText }: { buttonText?: string }) => {
 	return (
 		<Dialog>
-			<DialogTrigger>
-				<Button variant={"outline"}>
-					<Plus className="text-green-400" />
+			<DialogTrigger title="Add document">
+				<Button variant={"outline"} className="rounded-full p-0 w-8 h-8">
+					<File className="text-green-400" />
 					{buttonText && buttonText}
 				</Button>
 			</DialogTrigger>
-			<DialogTitle hidden>add document</DialogTitle>
 
 			<DialogContent className="w-full bg-white max-h-[70vh] overflow-y-auto">
 				<h3 className="text-xl font-semibold md:font-bold">Add new document</h3>

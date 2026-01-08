@@ -5,7 +5,10 @@ import { useEffect, useState } from "react";
 import MenuDialog from "./MenuDialog";
 import { Button } from "./ui/button";
 import { authClient } from "../lib/auth-client";
-import Avatar from "./Avatar";
+import ProfileDropDownMenu from "./ProfileDropdown";
+import AddTenantDialog from "./AddTenantDialog";
+import AddDocumentDialog from "./tenants/AddDocumentDialog";
+import Link from "next/link";
 
 const Header = () => {
 	const [text, setText] = useState("");
@@ -28,8 +31,10 @@ const Header = () => {
 	};
 	return (
 		<header className="w-full p-5 py-2 fixed top-0 left-0 border-[1px] bg-white  mx-auto shadow-sm flex justify-start gap-2 items-center bg-gradient-to-e from-green-600 via-green-400 to-green-600 ">
-			<Bot className="text-green-400 " size={30} />
-			<h1 className="text-md font-semibold mr-auto">Multi Tenant</h1>
+			<Link href={"/"} className="mr-auto flex items-center gap-1">
+				<Bot className="text-green-400 " size={30} />
+				<h1 className="text-md font-semibold ">Multi Tenant</h1>
+			</Link>
 			{!data && (
 				<Button
 					variant={"outline"}
@@ -39,7 +44,13 @@ const Header = () => {
 					<LogInIcon /> Login
 				</Button>
 			)}
-			<MenuDialog knowledgeSourceText={text} />
+			{data && data.user && (
+				<>
+					<AddDocumentDialog />
+					<AddTenantDialog />
+					<ProfileDropDownMenu />
+				</>
+			)}
 		</header>
 	);
 };
