@@ -25,9 +25,9 @@ const TenantTable = ({ data }: ItenantTableProps) => {
 					<TableHead className="w-[100px]">Name</TableHead>
 					<TableHead>Created At</TableHead>
 					<TableHead>Active</TableHead>
-					<TableHead className="text-right">Verified</TableHead>
-					<TableHead className="text-right">Website</TableHead>
-					<TableHead className="text-right">Logo</TableHead>
+					<TableHead>Verified</TableHead>
+					<TableHead>Website</TableHead>
+					<TableHead>Logo</TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody>
@@ -36,14 +36,10 @@ const TenantTable = ({ data }: ItenantTableProps) => {
 						<TableRow>
 							<TableCell className="font-medium">{tenant.name}</TableCell>
 							<TableCell>{formatDate(tenant.created_at!)}</TableCell>
-							<TableCell className="text-right">
-								{tenant.active ? "Yes" : "No"}
-							</TableCell>
-							<TableCell className="text-right">
-								{tenant.active ? "Yes" : "No"}
-							</TableCell>
-							<TableCell className="text-right">{tenant.site_url}</TableCell>
-							<TableCell className="text-right">{tenant.logo}</TableCell>
+							<TableCell>{tenant.active ? "Yes" : "No"}</TableCell>
+							<TableCell>{tenant.active ? "Yes" : "No"}</TableCell>
+							<TableCell>{tenant.site_url}</TableCell>
+							<TableCell content="">{tenant.logo}</TableCell>
 						</TableRow>
 					);
 				})}
