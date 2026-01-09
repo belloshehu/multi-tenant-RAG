@@ -6,8 +6,8 @@ import {
 } from "@/src/components/ui/dialog";
 
 import { File } from "lucide-react";
-import { Button } from "../ui/button";
-import DocumentUploadForm from "../forms/DocumentUploadForm";
+import { Button } from "./ui/button";
+import DocumentUploadForm from "./forms/DocumentUploadForm";
 
 const AddDocumentDialog = ({ buttonText }: { buttonText?: string }) => {
 	return (

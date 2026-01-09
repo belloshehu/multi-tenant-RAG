@@ -1,6 +1,13 @@
 "use clients";
 
-import { Form } from "../ui/form";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "../ui/form";
 import { useForm } from "react-hook-form";
 import FormInputField from "../form-fields/FormInput";
 import { Button } from "../ui/button";
@@ -9,8 +16,12 @@ import FormTextarea from "../form-fields/FormTextarea";
 import { tenantSchema, TenantSchemaType } from "@/src/schemas/tenants.schema";
 import { useCreateTenant } from "@/src/hooks/serivce-hooks/tenants.service.hooks";
 import { authClient } from "@/src/lib/auth-client";
+import { Input } from "../ui/input";
 
-const TenantForm = () => {
+interface ITenantFormProps {
+	onClose: () => void;
+}
+const TenantForm = ({ onClose }: ITenantFormProps) => {
 	const form = useForm<TenantSchemaType>({
 		resolver: zodResolver(tenantSchema),
 	});
@@ -26,10 +37,10 @@ const TenantForm = () => {
 	const onSubmit = async (data: TenantSchemaType) => {
 		await mutateAsync({
 			payload: { ...data, user_id: authData?.user.id! },
-		});
-		if (isSuccess) {
+		}).then(() => {
 			reset();
-		}
+			onClose();
+		});
 	};
 	return (
 		<Form {...form}>
@@ -73,14 +84,25 @@ const TenantForm = () => {
 					type="email"
 					errorMessage={errors.support_email?.message}
 				/>
-				<FormInputField
+				<FormField
 					control={control}
-					name="logo"
-					label="Logo Url"
-					placeholder="Enter logo url"
-					id="logo"
-					type="url"
-					errorMessage={errors.logo?.message}
+					name={"logo"}
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Logo</FormLabel>
+							<FormControl>
+								<Input
+									placeholder="Select image file"
+									type={"file"}
+									accept="image/*"
+									onChange={(e) => {
+										field.onChange(e.target.files?.[0]);
+									}}
+								/>
+							</FormControl>
+							{errors && <FormMessage />}
+						</FormItem>
+					)}
 				/>
 
 				<FormInputField

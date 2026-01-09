@@ -26,7 +26,7 @@ const Tenant = ({ data }: ITenantProps) => {
 				src={data.logo}
 				width={200}
 				height={150}
-				className="object-cover w-full h-22 rounded-md "
+				className="object-contain w-full h-22 rounded-md "
 			/>
 			<CardContent className="">
 				<CardTitle className="font-normal">{data.name}</CardTitle>

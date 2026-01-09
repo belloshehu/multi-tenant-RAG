@@ -32,7 +32,6 @@ export async function POST(request: NextRequest) {
 		const file = formData.get("file");
 		const customFileName = formData.get("name") as string;
 		const description = formData.get("description") as string;
-		console.log("Data:", file, description, customFileName);
 
 		if (!file) {
 			return NextResponse.json(

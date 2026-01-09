@@ -18,12 +18,15 @@ export interface ITenantPayloadType {
 	name: string;
 	description?: string;
 	site_url: string;
-	logo: string;
+	logo: File | string;
 	email: string;
 	support_email: string;
 	user_id: string;
 }
 
+export interface ITenantDto extends ITenantPayloadType {
+	logo: string;
+}
 export interface ITenantResponseType extends ResponseType<ITenantType> {
 	data: ITenantType;
 }
