@@ -7,12 +7,14 @@ import {
 } from "@/src/components/ui/dialog";
 
 import { Users } from "lucide-react";
-import { Button } from "./ui/button";
-import TenantForm from "./forms/TenantForm";
+import { Button } from "../ui/button";
+import TenantForm from "../forms/TenantForm";
+import { useState } from "react";
 
 const AddTenantDialog = ({ buttonText }: { buttonText?: string }) => {
+	const [isOpen, setIsOpen] = useState(false);
 	return (
-		<Dialog>
+		<Dialog open={isOpen} onOpenChange={() => setIsOpen((prev) => !prev)}>
 			<DialogTrigger title="Add tenant">
 				<Button variant={"outline"} className="rounded-full p-0 w-8 h-8">
 					<Users className="text-primary" />
@@ -25,7 +27,7 @@ const AddTenantDialog = ({ buttonText }: { buttonText?: string }) => {
 				<h3 className="text-xl font-semibold md:font-bold">
 					Tenant Registration
 				</h3>
-				<TenantForm />
+				<TenantForm onClose={() => setIsOpen(false)} />
 			</DialogContent>
 		</Dialog>
 	);

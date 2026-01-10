@@ -10,11 +10,15 @@ import {
 import { IDocumentType } from "../types/documents.types";
 import { ITenantType } from "../types/tenants.types";
 
+export type ContentType = "chat" | "tenants";
 interface TenantContextType {
 	selectedDocument: IDocumentType | null;
 	updateSelectedDocument: (doc: IDocumentType) => void;
 	tenant: ITenantType | null;
 	selectTenant: (tenant: ITenantType) => void;
+	content: ContentType; // determines what is displayed based on users' action
+	changeContent: (content: ContentType) => void;
+	toggleContent: () => void;
 }
 
 const TenantContext = createContext<TenantContextType | null>(null);
@@ -22,6 +26,7 @@ const TenantContext = createContext<TenantContextType | null>(null);
 export const TenantProvider = ({ children }: { children: ReactNode }) => {
 	const [selectedDoc, setSelectedDoc] = useState<IDocumentType | null>(null);
 	const [tenant, setTenant] = useState<ITenantType | null>(null);
+	const [content, setContent] = useState<ContentType>("tenants");
 
 	const updateSelectedDocument = useCallback((doc: IDocumentType) => {
 		if (doc) {
@@ -35,6 +40,23 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
 		}
 	}, []);
 
+	const changeContent = useCallback(
+		(content: ContentType) => {
+			if (content) {
+				setContent(content);
+			}
+		},
+		[content]
+	);
+
+	const toggleContent = useCallback(() => {
+		if (content === "chat") {
+			setContent("tenants");
+		} else {
+			setContent("chat");
+		}
+	}, [content]);
+
 	return (
 		<TenantContext.Provider
 			value={{
@@ -42,6 +64,9 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
 				selectedDocument: selectedDoc,
 				selectTenant,
 				tenant,
+				content,
+				changeContent,
+				toggleContent,
 			}}
 		>
 			{children}

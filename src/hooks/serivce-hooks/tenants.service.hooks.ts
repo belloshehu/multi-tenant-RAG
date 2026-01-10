@@ -1,5 +1,6 @@
 import { TenantServiceAPI } from "@/src/services/tenants.service";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import { toast } from "sonner";
 
 // Hook for Fetching all tenants invoked in client components
@@ -17,10 +18,11 @@ export const useCreateTenant = () => {
 		mutationFn: TenantServiceAPI.createTenant,
 		onSuccess() {
 			toast.success("Created tenant successfully");
-			queryClient.invalidateQueries({ queryKey: ["tenant"] });
+			queryClient.invalidateQueries({ queryKey: ["tenants"] });
 		},
-		onError() {
-			toast.error("Failed to create tenant");
+		onError(error: any) {
+			const err = error as AxiosError<{ error: string }>;
+			toast.error(`Error creating tenant: ${err.response?.data.error}`);
 		},
 	});
 };

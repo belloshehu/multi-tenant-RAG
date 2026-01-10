@@ -6,7 +6,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/src/components/ui/dialog";
-import AddDocumentDialog from "./tenants/AddDocumentDialog";
+import AddDocumentDialog from "./documents/AddDocumentDialog";
 import { authClient } from "../lib/auth-client";
 import { Button } from "./ui/button";
 import { useState } from "react";
@@ -14,7 +14,7 @@ import { Separator } from "./ui/separator";
 import { User } from "better-auth";
 import Avatar from "./Avatar";
 import DashboardDocumentDialog from "./DashboardDocumentDialog";
-import AddTenantDialog from "./AddTenantDialog";
+import AddTenantDialog from "./tenants/AddTenantDialog";
 
 const MenuDialog = ({
 	knowledgeSourceText,
