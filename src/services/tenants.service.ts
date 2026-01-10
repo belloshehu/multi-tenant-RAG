@@ -20,6 +20,7 @@ export class TenantServiceAPI {
 		);
 		return data.data;
 	};
+
 	static deleteTenant = async ({ id }: { id: number }) => {
 		const { data } = await axiosInstance.delete("/api/tenants/" + id);
 		return data.data;
