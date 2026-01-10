@@ -1,3 +1,4 @@
+import PageWrapper from "@/src/components/PageWrapper";
 import AddTenantDialog from "@/src/components/tenants/AddTenantDialog";
 import TenantTable from "@/src/components/tenants/TenantTable";
 import { Badge } from "@/src/components/ui/badge";
@@ -7,7 +8,7 @@ import { TenantServiceAPI } from "@/src/services/tenants.service";
 export default async function TenantPage() {
 	const tenants = await TenantServiceAPI.getAllTenants();
 	return (
-		<div className="w-full  p-5 md:p-20 space-y-10">
+		<PageWrapper>
 			<Item variant={"muted"} className="">
 				<ItemTitle>
 					Tenants
@@ -18,6 +19,6 @@ export default async function TenantPage() {
 				</ItemContent>
 			</Item>
 			<TenantTable data={tenants!} />
-		</div>
+		</PageWrapper>
 	);
 }

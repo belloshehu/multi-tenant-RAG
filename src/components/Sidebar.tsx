@@ -1,5 +1,5 @@
 "use client";
-import { LinkIcon, Mail, MessageCircle, User, Users } from "lucide-react";
+import { LinkIcon, Mail, MessageCircle, Users } from "lucide-react";
 import { useGetAllDocuments } from "../hooks/serivce-hooks/documents.service.hooks";
 import {
 	Item,
@@ -16,6 +16,7 @@ import { Separator } from "./ui/separator";
 import Link from "next/link";
 import AboutDialog from "./AboutDialog";
 import { Button } from "./ui/button";
+import Image from "next/image";
 
 const Sidebar = () => {
 	const { data: documents, isLoading } = useGetAllDocuments();
@@ -29,7 +30,9 @@ const Sidebar = () => {
 					<ItemTitle>{selectedDocument?.name}</ItemTitle>
 					<ItemMedia>
 						<ItemActions>
-							<LinkIcon className="text-green-400" size={16} />
+							<Link href={selectedDocument.fileUrl} target="_blank">
+								<LinkIcon className="text-green-400" size={16} />
+							</Link>
 						</ItemActions>
 					</ItemMedia>
 				</ItemHeader>
@@ -59,6 +62,15 @@ const Sidebar = () => {
 					>
 						<ItemContent className="w-full">
 							<ItemTitle className="w-full mb-3">
+								<ItemMedia>
+									<Image
+										src={tenant.logo}
+										height={8}
+										width={8}
+										alt="logo"
+										className="object-cover aspect-auto object-center h-8 w-8"
+									/>
+								</ItemMedia>
 								{tenant.name}
 								<Link
 									target="_blank"
@@ -74,7 +86,10 @@ const Sidebar = () => {
 								>
 									<Mail size={20} />
 								</Link>
-								<AboutDialog tenant={tenant} />
+								<AboutDialog
+									title={"About " + tenant.name}
+									description={tenant.description!}
+								/>
 							</ItemTitle>
 							{/* Documents of the selected tenant  */}
 							{documents ? (
@@ -95,6 +110,9 @@ const Sidebar = () => {
 				</>
 			) : (
 				<Item variant={"outline"} className="w-full">
+					<ItemMedia>
+						<Users />
+					</ItemMedia>
 					<ItemContent>Select a tenant to chat with</ItemContent>
 				</Item>
 			)}

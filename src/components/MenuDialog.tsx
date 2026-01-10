@@ -6,7 +6,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/src/components/ui/dialog";
-import AddDocumentDialog from "./AddDocumentDialog";
+import AddDocumentDialog from "./documents/AddDocumentDialog";
 import { authClient } from "../lib/auth-client";
 import { Button } from "./ui/button";
 import { useState } from "react";

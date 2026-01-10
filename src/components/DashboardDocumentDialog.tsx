@@ -13,7 +13,7 @@ import { IDocumentType } from "../types/documents.types";
 import { Separator } from "./ui/separator";
 import { useGetAllDocuments } from "../hooks/serivce-hooks/documents.service.hooks";
 import DocumentList from "./DocumentList";
-import DocumentTable from "./DocumentTable";
+import DocumentTable from "./documents/DocumentTable";
 
 interface IDocumentDetailDialogProps {}
 const DashboardDocumentDialog = ({}: IDocumentDetailDialogProps) => {

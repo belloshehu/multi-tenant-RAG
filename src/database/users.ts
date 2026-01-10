@@ -8,7 +8,6 @@ export const getAllUsers = async (): Promise<User[] | null> => {
 };
 
 export const getUserById = async (id: string): Promise<User | null> => {
-	console.log(id);
 	let { data: user, error } = await supabase
 		.from("user")
 		.select("*")

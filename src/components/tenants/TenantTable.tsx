@@ -11,6 +11,8 @@ import {
 import { Badge } from "../ui/badge";
 import { formatDate } from "../../lib/timedate";
 import { ITenantType } from "../../types/tenants.types";
+import Image from "next/image";
+import Link from "next/link";
 
 interface ItenantTableProps {
 	data: ITenantType[];
@@ -33,13 +35,29 @@ const TenantTable = ({ data }: ItenantTableProps) => {
 			<TableBody>
 				{data.map((tenant) => {
 					return (
-						<TableRow>
-							<TableCell className="font-medium">{tenant.name}</TableCell>
+						<TableRow key={tenant.id}>
+							<TableCell className="font-medium">
+								<Link href={`/dashboard/tenants/${tenant.id}`}>
+									{tenant.name}
+								</Link>
+							</TableCell>
 							<TableCell>{formatDate(tenant.created_at!)}</TableCell>
 							<TableCell>{tenant.active ? "Yes" : "No"}</TableCell>
 							<TableCell>{tenant.active ? "Yes" : "No"}</TableCell>
-							<TableCell>{tenant.site_url}</TableCell>
-							<TableCell content="">{tenant.logo}</TableCell>
+							<TableCell>
+								<Link target="_blank" href={tenant.site_url}>
+									{tenant.site_url}
+								</Link>
+							</TableCell>
+							<TableCell content="">
+								<Image
+									src={tenant.logo}
+									alt="logo"
+									width={20}
+									height={20}
+									className="object-contain w-8 h-8"
+								/>
+							</TableCell>
 						</TableRow>
 					);
 				})}

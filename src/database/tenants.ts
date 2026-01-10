@@ -54,3 +54,16 @@ export const getTenantByName = async (
 	if (error) throw new Error("Failed to fetch tenant: " + error.message);
 	return tenant;
 };
+
+export const getTenantById = async (
+	id: string
+): Promise<ITenantType | null> => {
+	let { data: tenant, error } = await supabase
+		.from("tenants")
+		.select("*")
+		.eq("id", id)
+		.limit(1)
+		.single();
+	if (error) throw new Error("Failed to fetch tenant: " + error.message);
+	return tenant;
+};

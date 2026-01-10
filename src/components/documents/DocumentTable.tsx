@@ -7,11 +7,15 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "./ui/table";
-import { IDocumentType } from "../types/documents.types";
-import { Badge } from "./ui/badge";
-import { formatDate } from "../lib/timedate";
-import { Button } from "./ui/button";
+} from "../ui/table";
+import { IDocumentType } from "../../types/documents.types";
+import { Badge } from "../ui/badge";
+import { formatDate } from "../../lib/timedate";
+import { Button } from "../ui/button";
+import AboutDialog from "../AboutDialog";
+import { Edit, Trash } from "lucide-react";
+import DeleteDocumentDialog from "./DeleteDocumentDialog";
+import AddDocumentDialog from "./AddDocumentDialog";
 
 interface IDocumentTableProps {
 	data: IDocumentType[];
@@ -27,6 +31,8 @@ const DocumentTable = ({ data }: IDocumentTableProps) => {
 					<TableHead>Created At</TableHead>
 					<TableHead>Indexing</TableHead>
 					<TableHead className="text-right">Status</TableHead>
+					<TableHead className="text-right">Description</TableHead>
+					<TableHead colSpan={2}>Actions</TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody>
@@ -40,6 +46,18 @@ const DocumentTable = ({ data }: IDocumentTableProps) => {
 							</TableCell>
 							<TableCell className="text-right">
 								<Button>Enable</Button>
+							</TableCell>
+							<TableCell>
+								<AboutDialog
+									title={document.name}
+									description={document.description!}
+								/>
+							</TableCell>
+							<TableCell title="delete document">
+								<DeleteDocumentDialog documentName={document.name} />
+							</TableCell>
+							<TableCell title="edit document">
+								<AddDocumentDialog />
 							</TableCell>
 						</TableRow>
 					);
