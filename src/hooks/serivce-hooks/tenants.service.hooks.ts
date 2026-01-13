@@ -11,6 +11,13 @@ export const useGetAllTenants = () => {
 	});
 };
 
+export const useGetTenantById = (id: number) => {
+	return useQuery({
+		queryFn: async () => TenantServiceAPI.getTenantById(id),
+		queryKey: ["tenant", id],
+	});
+};
+
 // Hook for creating a tenant to be used in a form
 export const useCreateTenant = () => {
 	const queryClient = useQueryClient();

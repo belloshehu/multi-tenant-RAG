@@ -1,3 +1,4 @@
+import { IDocumentType } from "./documents.types";
 import { ResponseType } from "./index.types";
 
 export interface ITenantType {
@@ -12,6 +13,7 @@ export interface ITenantType {
 	verified: boolean;
 	active: boolean;
 	created_at?: string;
+	documents?: IDocumentType[];
 }
 
 export interface ITenantPayloadType {

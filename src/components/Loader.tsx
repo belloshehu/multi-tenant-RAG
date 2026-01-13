@@ -3,9 +3,11 @@ import { cn } from "@/src/lib/utils";
 export default function Loader({
 	message,
 	fullScreen,
+	textClassName,
 }: {
 	message?: string;
 	fullScreen?: boolean;
+	textClassName?: string;
 }) {
 	return (
 		<div
@@ -14,7 +16,7 @@ export default function Loader({
 			})}
 		>
 			<div className="animate-spin rounded-full h-16 w-16 border-b-2 border-cyan-600"></div>
-			<span className="ml-4 text-lg text-gray-700">
+			<span className={cn("ml-4 text-lg text-white", textClassName)}>
 				{message || "Loading..."}
 			</span>
 		</div>

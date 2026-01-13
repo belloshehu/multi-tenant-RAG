@@ -30,6 +30,7 @@ const TenantTable = ({ data }: ItenantTableProps) => {
 					<TableHead>Verified</TableHead>
 					<TableHead>Website</TableHead>
 					<TableHead>Logo</TableHead>
+					<TableHead>Documents</TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody>
@@ -58,6 +59,7 @@ const TenantTable = ({ data }: ItenantTableProps) => {
 									className="object-contain w-8 h-8"
 								/>
 							</TableCell>
+							<TableCell>{tenant.documents?.length}</TableCell>
 						</TableRow>
 					);
 				})}

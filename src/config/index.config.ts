@@ -13,7 +13,6 @@ const API_BASE_URL =
 		? process.env.API_BASE_URL_DEV
 		: process.env.API_BASE_URL_PROD;
 
-console.log(API_BASE_URL);
 export const axiosInstance = axios.create({
 	baseURL: API_BASE_URL,
 });
