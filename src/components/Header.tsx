@@ -1,13 +1,10 @@
 "use client";
-import { Bot, LogIn, LogInIcon, User } from "lucide-react";
+import { Bot, LogInIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-// import { fetchKnowledgeSource } from "../actions/read-knowledge-source";
-import MenuDialog from "./MenuDialog";
 import { Button } from "./ui/button";
 import { authClient } from "../lib/auth-client";
 import ProfileDropDownMenu from "./ProfileDropdown";
 import AddTenantDialog from "./tenants/AddTenantDialog";
-import AddDocumentDialog from "./documents/AddDocumentDialog";
 import Link from "next/link";
 
 const Header = () => {
@@ -46,7 +43,6 @@ const Header = () => {
 			)}
 			{data && data.user && (
 				<>
-					<AddDocumentDialog />
 					<AddTenantDialog />
 					<ProfileDropDownMenu />
 				</>

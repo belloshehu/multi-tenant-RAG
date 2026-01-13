@@ -8,8 +8,8 @@ import { axiosInstance } from "../config/index.config";
 
 export class TenantServiceAPI {
 	static getAllTenants = async () => {
-		const { data } = await axios.get<ITenantListResponseType>(
-			"http://localhost:3000/api/tenants"
+		const { data } = await axiosInstance.get<ITenantListResponseType>(
+			"/api/tenants"
 		);
 		return data.data;
 	};

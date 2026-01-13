@@ -3,8 +3,7 @@ import StatusCodes from "http-status-codes";
 import * as tenantData from "@/src/database/tenants";
 import * as userData from "@/src/database/users";
 import * as storage from "@/src/storage/logos";
-import { auth } from "@/src/lib/auth";
-import { headers } from "next/headers";
+import { revalidatePath } from "next/cache";
 
 export async function POST(request: NextRequest) {
 	try {
@@ -98,6 +97,9 @@ export async function POST(request: NextRequest) {
 				user_id: user.id,
 			},
 		});
+
+		revalidatePath("/dashboard/tenants", "page");
+		revalidatePath("/", "page");
 
 		return NextResponse.json(
 			{ data: tenant, message: "Tenant registerd " },
