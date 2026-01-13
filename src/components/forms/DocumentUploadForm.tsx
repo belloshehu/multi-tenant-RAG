@@ -17,11 +17,17 @@ import {
 	documentUploadSchema,
 } from "@/src/schemas/document-upload.schema";
 import { Input } from "../ui/input";
-import { uploadFile } from "@/src/app/actions/upload-file";
 import { useCreateDocument } from "@/src/hooks/serivce-hooks/documents.service.hooks";
 import FormTextarea from "../form-fields/FormTextarea";
 
-const DocumentUploadForm = () => {
+interface IDocumentUploadFormProps {
+	tenant_id: number;
+	onClose?: () => void;
+}
+const DocumentUploadForm = ({
+	onClose,
+	tenant_id,
+}: IDocumentUploadFormProps) => {
 	const form = useForm<DocumentUploadSchema>({
 		resolver: zodResolver(documentUploadSchema),
 	});
@@ -29,15 +35,15 @@ const DocumentUploadForm = () => {
 		control,
 		formState: { isSubmitting, errors },
 		handleSubmit,
-		watch,
 		setValue,
 		reset,
 	} = form;
-	const { mutateAsync, isPending } = useCreateDocument();
+	const { mutateAsync, isPending } = useCreateDocument(tenant_id);
 
 	const onSubmit = async (data: DocumentUploadSchema) => {
-		mutateAsync({ payload: data }).finally(() => {
+		mutateAsync({ payload: { ...data, tenant_id } }).finally(() => {
 			reset();
+			onClose && onClose();
 		});
 	};
 	return (

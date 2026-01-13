@@ -16,9 +16,7 @@ const AboutDialog = ({
 	return (
 		<Dialog>
 			<DialogTrigger title={title}>
-				<Button variant={"outline"}>
-					<Info className="" /> {triggerText && triggerText}
-				</Button>
+				<Info className="" /> {triggerText && triggerText}
 			</DialogTrigger>
 
 			<DialogContent className="w-full bg-white max-h-[70vh] overflow-y-auto items-start justify-start">

@@ -16,10 +16,8 @@ const AddTenantDialog = ({ buttonText }: { buttonText?: string }) => {
 	return (
 		<Dialog open={isOpen} onOpenChange={() => setIsOpen((prev) => !prev)}>
 			<DialogTrigger title="Add tenant">
-				<Button variant={"outline"} className="rounded-full p-0 w-8 h-8">
-					<Users className="text-primary" />
-					{buttonText}
-				</Button>
+				<Users className="text-primary" size={20} />
+				{buttonText}
 			</DialogTrigger>
 			<DialogTitle hidden>add tenant</DialogTitle>
 

@@ -19,7 +19,6 @@ import { Button } from "./ui/button";
 import Image from "next/image";
 
 const Sidebar = () => {
-	const { data: documents, isLoading } = useGetAllDocuments();
 	const { selectedDocument, tenant, toggleContent, content } = useTenant();
 
 	const renderSelectedDocument = () => {
@@ -92,8 +91,8 @@ const Sidebar = () => {
 								/>
 							</ItemTitle>
 							{/* Documents of the selected tenant  */}
-							{documents ? (
-								<DocumentSelect documents={documents || []} />
+							{tenant.documents && tenant.documents.length > 0 ? (
+								<DocumentSelect documents={tenant.documents || []} />
 							) : (
 								<Item variant={"outline"} className="w-full">
 									<ItemContent>

@@ -14,6 +14,13 @@ export class TenantServiceAPI {
 		return data.data;
 	};
 
+	static getTenantById = async (id: number) => {
+		const { data } = await axiosInstance.get<ITenantResponseType>(
+			"/api/tenants/" + id
+		);
+		return data.data;
+	};
+
 	static getUserTenants = async () => {
 		const { data } = await axiosInstance.get<ITenantListResponseType>(
 			"/api/user/tenants"

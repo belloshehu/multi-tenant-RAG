@@ -34,7 +34,8 @@ export const downloadFile = async (fileName: string) => {
 		.from(DOCUMENT_BUCKET)
 		.download(filePath);
 	if (error) throw new Error("Failed to download file: " + error.message);
-	return data;
+	const buffer = Buffer.from(await data.arrayBuffer());
+	return { buffer, fileName };
 };
 
 export const deleteFile = async (fileName: string) => {
@@ -42,7 +43,7 @@ export const deleteFile = async (fileName: string) => {
 	const { data, error } = await supabase.storage
 		.from(DOCUMENT_BUCKET)
 		.remove([filePath]);
-	if (error) throw new Error("Failed to delete file:" + error.message);
+	if (error) throw error;
 	return data;
 };
 

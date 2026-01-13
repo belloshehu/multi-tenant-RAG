@@ -3,52 +3,59 @@ import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { Config } from "../config/index.config";
 import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase";
 import { supabase } from "./supabase";
-import { toast } from "sonner";
+import path from "path";
+import fs from "fs";
+import os from "os";
+import { downloadFile } from "../storage/documents";
 
 export const indexDocument = async (
 	filePath: string,
-	documentId: string,
-	tenantId: string
+	documentId: number,
+	tenantId: number
 ) => {
-	// STEP 1: Load document
-	const loader = new PDFLoader(filePath);
-	const documents = await loader.load();
+	try {
+		// download the file from  cloud storge(supabase)
+		const { buffer, fileName } = await downloadFile(filePath);
+		const tempPath = path.join(os.tmpdir(), fileName);
+		fs.writeFileSync(tempPath, buffer);
 
-	// STEP 2: Split document
-	const textSplitter = new RecursiveCharacterTextSplitter({
-		chunkOverlap: 0,
-		chunkSize: 200,
-	});
+		// STEP 1: Load document
+		const loader = new PDFLoader(tempPath);
+		const documents = await loader.load();
 
-	const splittedDocuments = await textSplitter.splitDocuments(documents);
-
-	// STEP 3: Attach tenant id and document id to every chunk
-	const documentsWithMetadata = splittedDocuments.map((doc) => ({
-		...doc,
-		metadata: {
-			...doc.metadata,
-			tenant_id: tenantId,
-			document_id: documentId,
-			source: filePath,
-		},
-	}));
-
-	// STEP 4: Upload to supabase vector store
-	await SupabaseVectorStore.fromDocuments(
-		documentsWithMetadata,
-		Config.embedder,
-		{
-			client: supabase,
-			tableName: "documents",
-			upsertBatchSize: 1536,
-		}
-	)
-		.then(() => {
-			toast.success("Finish indexing document");
-		})
-		.catch(() => {
-			toast.error("Failed to index document");
+		// STEP 2: Split document
+		const textSplitter = new RecursiveCharacterTextSplitter({
+			chunkOverlap: 0,
+			chunkSize: 200,
 		});
+
+		const splittedDocuments = await textSplitter.splitDocuments(documents);
+
+		// STEP 3: Attach tenant id and document id to every chunk
+		const documentsWithMetadata = splittedDocuments.map((doc) => ({
+			...doc,
+			metadata: {
+				...doc.metadata,
+				tenant_id: tenantId,
+				document_id: documentId,
+				source: filePath,
+			},
+		}));
+
+		// STEP 4: Upload to supabase vector store
+		await SupabaseVectorStore.fromDocuments(
+			documentsWithMetadata,
+			Config.embedder,
+			{
+				client: supabase,
+				tableName: "documents",
+				upsertBatchSize: 1536,
+			}
+		);
+	} catch (error) {
+		console.log(error);
+		throw error;
+	}
 };
 
 const retrieveInformation = async (tenantId: string, documentId: string) => {

@@ -19,14 +19,16 @@ export const getTenantsByUser = async (
 ): Promise<ITenantType[] | null> => {
 	let { data: tenants, error } = await supabase
 		.from("tenants")
-		.select("*")
+		.select("*, documents:document(*)")
 		.eq("user_id", user_id);
 	if (error) throw new Error("Failed to fetch tenants: " + error.message);
 	return tenants;
 };
 
 export const getAllTenants = async (): Promise<ITenantType[] | null> => {
-	let { data: tenants, error } = await supabase.from("tenants").select("*");
+	let { data: tenants, error } = await supabase
+		.from("tenants")
+		.select("*, documents:document(*)");
 	if (error) throw new Error("Failed to fetch tenants: " + error.message);
 	return tenants;
 };
@@ -60,7 +62,7 @@ export const getTenantById = async (
 ): Promise<ITenantType | null> => {
 	let { data: tenant, error } = await supabase
 		.from("tenants")
-		.select("*")
+		.select("*, documents:document(*)")
 		.eq("id", id)
 		.limit(1)
 		.single();

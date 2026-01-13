@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import * as storage from "@/src/storage/documents";
 import * as database from "@/src/database/documents";
 import { validateFile } from "@/src/lib/validate-file";
+import { revalidatePath } from "next/cache";
 
 export async function GET() {
 	try {
@@ -32,6 +33,7 @@ export async function POST(request: NextRequest) {
 		const file = formData.get("file");
 		const customFileName = formData.get("name") as string;
 		const description = formData.get("description") as string;
+		const tenant_id = formData.get("tenant_id") as string;
 
 		if (!file) {
 			return NextResponse.json(
@@ -59,8 +61,15 @@ export async function POST(request: NextRequest) {
 
 		// insert instance of document in the documents table
 		const document = await database.insertDocument({
-			documentDto: { fileUrl: publicUrl, name: customFileName, description },
+			documentDto: {
+				fileUrl: publicUrl,
+				name: formattedFileName,
+				description,
+				tenant_id: parseInt(tenant_id),
+			},
 		});
+
+		revalidatePath("/dashboard/tenants/" + tenant_id, "page");
 		return NextResponse.json(
 			{
 				data: { document },
@@ -69,7 +78,6 @@ export async function POST(request: NextRequest) {
 			{ status: 201 }
 		);
 	} catch (error) {
-		console.error(error);
 		return NextResponse.json(
 			{
 				error: "Failed to create document:",
