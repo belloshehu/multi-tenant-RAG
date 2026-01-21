@@ -1,7 +1,7 @@
 "use client";
 
 import AddDocumentDialog from "@/src/components/documents/AddDocumentDialog";
-import DocumentTable from "@/src/components/documents/DocumentTable";
+import DocumentTable from "@/src/components/documents/DocumentTable/DocumentTable";
 import PageWrapper from "@/src/components/PageWrapper";
 import { Badge } from "@/src/components/ui/badge";
 import { Button } from "@/src/components/ui/button";
@@ -81,9 +81,11 @@ export default function TenantDetailPageClient({ id }: { id: number }) {
 					</Item>
 				</section>
 			) : (
-				<Item>
+				<Item variant={"muted"}>
 					<ItemContent>
-						<ItemTitle>Invalid tenant</ItemTitle>
+						<ItemTitle className="text-xl md:text-2xl font-bold">
+							Invalid tenant
+						</ItemTitle>
 						<ItemDescription>Tenant not found</ItemDescription>
 					</ItemContent>
 				</Item>

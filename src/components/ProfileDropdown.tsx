@@ -1,6 +1,6 @@
 import AboutDialog from "./AboutDialog";
 import AddDocumentDialog from "./documents/AddDocumentDialog";
-import AddTenantDialog from "./tenants/AddTenantDialog";
+import AddTenantDialog from "./tenants/AddTenantDialog/AddTenantDialog";
 import {
 	DropdownMenu,
 	DropdownMenuContent,

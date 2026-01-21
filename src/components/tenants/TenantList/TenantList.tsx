@@ -1,8 +1,8 @@
 "use client";
 import { ITenantType } from "@/src/types/tenants.types";
-import Tenant from "./Tenant";
-import { Spinner } from "../ui/spinner";
-import { Badge } from "../ui/badge";
+import Tenant from "../Tenant/Tenant";
+import { Spinner } from "../../ui/spinner";
+import { Badge } from "../../ui/badge";
 
 interface ITenantListProps {
 	data: ITenantType[] | null;
@@ -18,7 +18,10 @@ const TenantList = ({ data, loading }: ITenantListProps) => {
 	if (!data || data.length === 0) return <h3>Empty tenants</h3>;
 
 	return (
-		<ul className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+		<ul
+			className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+			data-testid="tenant-list"
+		>
 			{data.map((tenant) => (
 				<Tenant data={tenant} key={tenant.id} />
 			))}

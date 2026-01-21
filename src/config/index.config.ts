@@ -8,10 +8,17 @@ const embeddings = new AzureOpenAIEmbeddings({
 	azureOpenAIApiVersion: process.env.AZURE_OPENAI_API_VERSION,
 });
 
-const API_BASE_URL =
-	process.env.NODE_ENV !== "production"
-		? process.env.API_BASE_URL_DEV
-		: process.env.API_BASE_URL_PROD;
+const resolveBaseUrl = () => {
+	if (process.env.NODE_ENV === "production") {
+		return process.env.API_BASE_URL_PROD;
+	} else if (process.env.NODE_ENV === "development") {
+		return process.env.API_BASE_URL_DEV;
+	} else {
+		return process.env.API_BASE_URL_TEST;
+	}
+};
+
+const API_BASE_URL = resolveBaseUrl();
 
 export const axiosInstance = axios.create({
 	baseURL: API_BASE_URL,

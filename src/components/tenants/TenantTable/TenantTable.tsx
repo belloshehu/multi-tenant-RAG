@@ -7,20 +7,20 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "../ui/table";
-import { Badge } from "../ui/badge";
-import { formatDate } from "../../lib/timedate";
-import { ITenantType } from "../../types/tenants.types";
+} from "../../ui/table";
+import { Badge } from "../../ui/badge";
+import { formatDate } from "../../../lib/timedate";
+import { ITenantType } from "../../../types/tenants.types";
 import Image from "next/image";
 import Link from "next/link";
 
 interface ItenantTableProps {
-	data: ITenantType[];
+	data: ITenantType[] | null;
 }
 const TenantTable = ({ data }: ItenantTableProps) => {
 	if (!data || data.length === 0) return <Badge>No tenants</Badge>;
 	return (
-		<Table>
+		<Table className="w-full md:w-3/5">
 			<TableCaption>A list of tenants.</TableCaption>
 			<TableHeader>
 				<TableRow>
@@ -33,10 +33,10 @@ const TenantTable = ({ data }: ItenantTableProps) => {
 					<TableHead>Documents</TableHead>
 				</TableRow>
 			</TableHeader>
-			<TableBody>
+			<TableBody data-testid="table-body">
 				{data.map((tenant) => {
 					return (
-						<TableRow key={tenant.id}>
+						<TableRow key={tenant.id} data-testid="table-row">
 							<TableCell className="font-medium">
 								<Link href={`/dashboard/tenants/${tenant.id}`}>
 									{tenant.name}
