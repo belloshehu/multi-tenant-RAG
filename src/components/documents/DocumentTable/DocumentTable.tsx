@@ -6,23 +6,23 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "../ui/table";
-import { IDocumentType } from "../../types/documents.types";
-import { Badge } from "../ui/badge";
-import { formatDate } from "../../lib/timedate";
-import { Button } from "../ui/button";
-import AboutDialog from "../AboutDialog";
-import DeleteDocumentDialog from "./DeleteDocumentDialog";
-import AddDocumentDialog from "./AddDocumentDialog";
-import DocumentIndexingDialog from "./DocumentIndexingDialog";
+} from "../../ui/table";
+import { IDocumentType } from "../../../types/documents.types";
+import { Badge } from "../../ui/badge";
+import { formatDate } from "../../../lib/timedate";
+import { Button } from "../../ui/button";
+import AboutDialog from "../../AboutDialog";
+import DeleteDocumentDialog from "../DeleteDocumentDialog";
+import AddDocumentDialog from "../AddDocumentDialog";
+import DocumentIndexingDialog from "../DocumentIndexingDialog";
 import Link from "next/link";
 import { LinkIcon } from "lucide-react";
 
 interface IDocumentTableProps {
-	data: IDocumentType[];
+	data: IDocumentType[] | null;
 }
 const DocumentTable = ({ data }: IDocumentTableProps) => {
-	if (!data || data.length === 0) return <Badge>No daocuments</Badge>;
+	if (!data || data.length === 0) return <Badge>No documents</Badge>;
 	return (
 		<Table>
 			<TableCaption>A list of your uploaded documents.</TableCaption>
@@ -37,7 +37,7 @@ const DocumentTable = ({ data }: IDocumentTableProps) => {
 					<TableHead colSpan={2}>Actions</TableHead>
 				</TableRow>
 			</TableHeader>
-			<TableBody>
+			<TableBody data-testid="table-body">
 				{data.map((document) => {
 					return (
 						<TableRow key={document.id}>

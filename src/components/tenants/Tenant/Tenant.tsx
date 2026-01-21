@@ -1,16 +1,38 @@
 import { ITenantType } from "@/src/types/tenants.types";
-import { Card, CardContent, CardTitle } from "../ui/card";
+import { Card, CardContent, CardTitle } from "../../ui/card";
 import Image from "next/image";
 import { useTenant } from "@/src/contexts/tenant-context";
 import { cn } from "@/src/lib/utils";
-import { File } from "lucide-react";
-import { Badge } from "../ui/badge";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { useRef } from "react";
 
 interface ITenantProps {
 	data: ITenantType;
 }
+
+gsap.registerEffect(useGSAP);
+
 const Tenant = ({ data }: ITenantProps) => {
 	const { selectTenant, tenant } = useTenant();
+	const cardRef = useRef(null);
+	useGSAP(() => {
+		gsap.from(cardRef.current, {
+			x: -100,
+			y: -100,
+			rotate: 360,
+			alpha: 0,
+			scale: 0.2,
+		});
+		gsap.to(cardRef.current, {
+			x: 0,
+			y: 0,
+			rotate: 360,
+			alpha: 1,
+			scale: 1,
+			stagger: 0.1,
+		});
+	});
 	return (
 		<Card
 			className={cn("p-3 items-center ", {
@@ -18,8 +40,10 @@ const Tenant = ({ data }: ITenantProps) => {
 			})}
 			onClick={() => {
 				selectTenant(data);
-				console.log("clicked");
 			}}
+			ref={cardRef}
+			aria-label="tenant-card"
+			data-testid="tenant-card"
 		>
 			<Image
 				alt="logo"
@@ -29,7 +53,9 @@ const Tenant = ({ data }: ITenantProps) => {
 				className="object-contain w-full h-22 rounded-md "
 			/>
 			<CardContent className="">
-				<CardTitle className="font-normal">{data.name}</CardTitle>
+				<CardTitle data-testid="tenant-title" className="font-normal">
+					{data.name}
+				</CardTitle>
 			</CardContent>
 		</Card>
 	);

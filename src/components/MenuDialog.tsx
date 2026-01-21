@@ -11,7 +11,7 @@ import { useState } from "react";
 import { Separator } from "./ui/separator";
 import Avatar from "./Avatar";
 import DashboardDocumentDialog from "./DashboardDocumentDialog";
-import AddTenantDialog from "./tenants/AddTenantDialog";
+import AddTenantDialog from "./tenants/AddTenantDialog/AddTenantDialog";
 
 const MenuDialog = ({
 	knowledgeSourceText,
