@@ -1,12 +1,12 @@
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
-import { Config } from "../config/index.config";
 import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase";
-import { supabase } from "./supabase";
+import { supabase } from "../supabase";
 import path from "path";
 import fs from "fs";
 import os from "os";
-import { downloadFile } from "../storage/documents";
+import { downloadFile } from "../../storage/documents";
+import { LLMConfig } from "@/src/config/llm";
 
 export const indexDocument = async (
 	filePath: string,
@@ -45,29 +45,15 @@ export const indexDocument = async (
 		// STEP 4: Upload to supabase vector store
 		await SupabaseVectorStore.fromDocuments(
 			documentsWithMetadata,
-			Config.embedder,
+			LLMConfig.embedder,
 			{
 				client: supabase,
 				tableName: "documents",
-				upsertBatchSize: 1536,
+				upsertBatchSize: 768,
 			}
 		);
 	} catch (error) {
 		console.log(error);
 		throw error;
 	}
-};
-
-const retrieveInformation = async (tenantId: string, documentId: string) => {
-	const vectorStore = new SupabaseVectorStore(Config.embedder, {
-		client: supabase,
-		queryName: "documents_query",
-		tableName: "documents",
-		filter: {
-			document_id: documentId,
-			tenant_id: tenantId,
-		},
-	});
-
-	const retiever = vectorStore.asRetriever({});
 };

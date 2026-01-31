@@ -1,7 +1,6 @@
 "use client";
 import { File, Send } from "lucide-react";
-import { useState } from "react";
-import { processChatAction } from "@/src/app/actions/retrieve-chat";
+import { useEffect, useState } from "react";
 import ChatMessageList from "./ChatMessageList";
 // import { formatConversationHistory } from "@/lib/formatConversationHistory";
 import { Textarea } from "./ui/textarea";
@@ -16,6 +15,9 @@ import { useTenant } from "../contexts/tenant-context";
 import { cn } from "../lib/utils";
 import { useGetAllDocuments } from "../hooks/serivce-hooks/documents.service.hooks";
 import { Button } from "./ui/button";
+import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
+import { toast } from "sonner";
 
 // import { postPrompt, getAIResponse } from "@/actions/lmms";
 export interface ChatType {
@@ -25,49 +27,51 @@ export interface ChatType {
 
 export default function Prompt() {
 	const [prompt, setPrompt] = useState("");
-	const [isChatting, setIsChatting] = useState(false);
 	const [chatList, setChatList] = useState<ChatType[] | []>([]);
-	const { selectedDocument } = useTenant();
+	const { selectedDocument, tenant } = useTenant();
 	const [isFocused, setIsFocused] = useState(false);
 	const { data: documents } = useGetAllDocuments();
 
+	const { messages, sendMessage, status, error } = useChat({
+		transport: new DefaultChatTransport({
+			api: "/api/documents/retrieve",
+			body: {
+				document_id: selectedDocument?.id!,
+				tenant_id: selectedDocument?.tenant_id!,
+				tenant_support_email: tenant?.support_email!,
+			},
+		}),
+	});
+
+	useEffect(() => {
+		setChatList([]);
+	}, [tenant, selectedDocument]);
+
 	const handleChat = async () => {
-		setIsChatting(true);
-		if (prompt) {
-			setChatList((prev) => [...prev, { message: prompt, mode: "user" }]);
-		}
-		try {
-			const response = await processChatAction(
-				prompt,
-				""
-				// formatConversationHistory(chatList)
-			);
-			if (response) {
-				setChatList((prev) => [
-					...prev,
-					{ message: response.data || response.error, mode: "system" },
-				]);
-			}
-		} catch (error) {
-			console.error("Something went wrong", error);
-		} finally {
-			setIsChatting(false);
-			setPrompt("");
-		}
+		if (!prompt.trim()) return;
+		sendMessage({ text: prompt });
+		setPrompt("");
 	};
+
+	// Handle error
+	useEffect(() => {
+		if (error) {
+			toast.error("Error during chat: " + error?.message || "Unknown error");
+		}
+	}, [error]);
 
 	return (
 		<section
 			className={cn(
-				"col-span-5 flex flex-col gap-5 border-[1px] w-full h-[98%] justify-start overflow-y-auto rounded-4xl p-2 md:p-5 md:py-2"
+				"relative col-span-4 flex flex-col gap-5 border-[0px] w-full h-[98%] justify-start overflow-y-auto  p-2 md:p-5 md:py-2"
 			)}
 		>
 			{selectedDocument && (
-				<ChatMessageList chatList={chatList} isChatting={isChatting} />
+				<ChatMessageList chatList={messages} status={status} />
 			)}
 
 			{selectedDocument ? (
-				<div className="rounded-full relative flex-3 flex items-center w-full">
+				<div className="mb-12 rounded-full flex items-center w-full h-fit">
 					<Textarea
 						placeholder={`Enter prompt message ${
 							selectedDocument ? "about " + selectedDocument.name : ""
@@ -80,9 +84,9 @@ export default function Prompt() {
 					/>
 					<Button
 						// onClick={handleClick}
-						className="rounded-full absolute right-2"
+						className="rounded-full absolute right-5 md:right-8 p-2"
 						onClick={handleChat}
-						disabled={isChatting}
+						disabled={status === "submitted" || status === "streaming"}
 					>
 						<Send className="text-green-600" />
 					</Button>

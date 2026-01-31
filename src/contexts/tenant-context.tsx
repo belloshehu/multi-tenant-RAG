@@ -28,6 +28,8 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
 	const [tenant, setTenant] = useState<ITenantType | null>(null);
 	const [content, setContent] = useState<ContentType>("tenants");
 
+	// clear selected document when tenant when page loads
+
 	const updateSelectedDocument = useCallback((doc: IDocumentType) => {
 		if (doc) {
 			setSelectedDoc(doc);
@@ -36,7 +38,13 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
 
 	const selectTenant = useCallback((tenant: ITenantType) => {
 		if (tenant) {
-			setTenant(tenant);
+			setTenant((prev) => {
+				if (prev?.id !== tenant.id) {
+					// tenant has changed, clear selected document
+					setSelectedDoc(null);
+				}
+				return tenant;
+			});
 		}
 	}, []);
 
