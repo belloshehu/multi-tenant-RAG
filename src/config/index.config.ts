@@ -1,12 +1,4 @@
-import { AzureOpenAIEmbeddings } from "@langchain/openai";
 import axios from "axios";
-
-const embeddings = new AzureOpenAIEmbeddings({
-	azureOpenAIApiEmbeddingsDeploymentName: "text-embedding-ada-002",
-	apiKey: process.env.AZURE_OPENAI_API_KEY,
-	azureOpenAIApiInstanceName: process.env.AZURE_OPENAI_API_INSTANCE_NAME,
-	azureOpenAIApiVersion: process.env.AZURE_OPENAI_API_VERSION,
-});
 
 const resolveBaseUrl = () => {
 	if (process.env.NODE_ENV === "production") {
@@ -25,6 +17,5 @@ export const axiosInstance = axios.create({
 });
 
 export const Config = {
-	embedder: embeddings,
 	axiosInstance,
 };

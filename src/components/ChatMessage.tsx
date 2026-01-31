@@ -1,21 +1,28 @@
-import { ChatType } from "./Prompt";
 import { cn } from "@/src/lib/utils";
+import { UIDataTypes, UIMessage, UITools } from "ai";
 import ReactMarkdown from "react-markdown";
 
 interface ChatMessageProps {
-	chat: ChatType;
+	chat: UIMessage<unknown, UIDataTypes, UITools>;
 }
 const ChatMessage = ({ chat }: ChatMessageProps) => {
 	return (
 		<p
-			className={cn("p-2  shadow-sm text-wrap", {
-				"justify-self-end rounded-tr-2xl rounded-bl-2xl self-end bg-white p-3":
-					chat.mode === "user",
-				"justify-self-start rounded-tl-2xl rounded-br-2xl bg-amber-50 self-start p-3":
-					chat.mode === "system",
-			})}
+			className={cn(
+				"p-2  shadow-sm text-wrap whitespace-pre-wrap wrap-break-word w-max-full text-sm",
+				{
+					"justify-self-end rounded-tr-2xl rounded-bl-2xl self-end bg-gray-100 p-3":
+						chat.role === "user",
+					"justify-self-start rounded-tl-2xl rounded-br-2xl self-start p-3":
+						chat.role === "assistant",
+				}
+			)}
 		>
-			<ReactMarkdown>{chat.message}</ReactMarkdown>
+			{chat.parts.map((part, index) =>
+				part.type === "text" ? (
+					<ReactMarkdown key={index}>{part.text}</ReactMarkdown>
+				) : null
+			)}
 		</p>
 	);
 };

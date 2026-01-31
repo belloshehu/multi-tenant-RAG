@@ -24,27 +24,30 @@ const Sidebar = () => {
 	const renderSelectedDocument = () => {
 		if (!selectedDocument) return null;
 		return (
-			<Item variant={"outline"}>
-				<ItemHeader className="p-0">
-					<ItemTitle>{selectedDocument?.name}</ItemTitle>
-					<ItemMedia>
-						<ItemActions>
-							<Link href={selectedDocument.fileUrl} target="_blank">
-								<LinkIcon className="text-green-400" size={16} />
-							</Link>
-						</ItemActions>
-					</ItemMedia>
-				</ItemHeader>
+			<>
+				<h3 className="font-semibold px-2">Selected document</h3>
+				<Item variant={"outline"}>
+					<ItemHeader className="p-0">
+						<ItemTitle>{selectedDocument?.name}</ItemTitle>
+						<ItemMedia>
+							<ItemActions>
+								<Link href={selectedDocument.fileUrl} target="_blank">
+									<LinkIcon className="text-green-400" size={16} />
+								</Link>
+							</ItemActions>
+						</ItemMedia>
+					</ItemHeader>
 
-				<Separator className="p-0" />
-				<ItemContent>
-					<p>{selectedDocument?.description}</p>
-				</ItemContent>
-			</Item>
+					<Separator className="p-0" />
+					<ItemContent>
+						<p>{selectedDocument?.description}</p>
+					</ItemContent>
+				</Item>
+			</>
 		);
 	};
 	return (
-		<aside className="hidden md:col-span-2 h-screen w-full pt-5 md:flex flex-col items-start justify-start gap-2 p-2 overflow-y-auto">
+		<aside className=" border-[1px] hidden md:col-span-2 h-screen w-full pt-5 md:flex flex-col items-start justify-start gap-2 p-2 overflow-y-auto">
 			{/* Selected tenant */}
 			{tenant ? (
 				<>

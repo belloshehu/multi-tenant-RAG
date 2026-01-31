@@ -27,7 +27,7 @@ const DocumentSelect = ({ documents }: IDocumentSelectProps) => {
 				}
 			}}
 		>
-			<SelectTrigger className="w-[180px]">
+			<SelectTrigger className="w-full">
 				<SelectValue placeholder="Select a document" />
 			</SelectTrigger>
 			<SelectContent>

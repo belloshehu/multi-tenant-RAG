@@ -19,9 +19,6 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { SplitText } from "gsap/all";
 
-// gsap.registerEffect(useGSAP);
-// gsap.registerPlugin(SplitText);
-
 export default function TenantMainContent() {
 	const { tenant } = useTenant();
 	const { data: tenants, isLoading } = useGetAllTenants();
@@ -59,7 +56,7 @@ export default function TenantMainContent() {
 	return (
 		<section
 			className={cn(
-				"col-span-5 flex flex-col gap-5 border-[1px] w-full h-full justify-start overflow-y-auto rounded-4xl p-2 md:p-5 md:py-2"
+				"col-span-5 flex flex-col gap-5 border-[1px] w-full h-full justify-start overflow-y-auto  p-2 md:p-5 md:py-2"
 			)}
 		>
 			<Item
@@ -68,7 +65,7 @@ export default function TenantMainContent() {
 			>
 				<ItemContent className="w-1/2">
 					<SearchInput
-						placeholder="Enter tenant's name"
+						placeholder="Search tenants..."
 						onChange={() => {}}
 						onSubmit={() => {}}
 					/>

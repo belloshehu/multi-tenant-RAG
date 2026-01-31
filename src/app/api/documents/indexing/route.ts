@@ -1,5 +1,5 @@
 import { fetchDocument, updateDocument } from "@/src/database/documents";
-import { indexDocument } from "@/src/lib/langchain";
+import { indexDocument } from "@/src/lib/langchain/document-indexer";
 import { IDocumentIndexingPayload } from "@/src/types/documents.types";
 import { StatusCodes } from "http-status-codes";
 import { revalidatePath } from "next/cache";
